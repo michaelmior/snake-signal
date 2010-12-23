@@ -22,7 +22,7 @@ class LibNotifyHandler(logging.Handler):
         logging.Handler.__init__(self)
 
     def emit(self, record):
-        self.__pynotify.Notification(record.getMessage()).show()
+        self.__pynotify.Notification(record.levelname, record.getMessage()).show()
 
 class GmailHandler(logging.Handler):
 
@@ -40,7 +40,7 @@ class GmailHandler(logging.Handler):
     def emit(self, record):
         from email.mime.text import MIMEText
         msg = MIMEText(record.getMessage())
-        msg['Subject'] = 'snake-signal notification'
+        msg['Subject'] = 'snake-signal %s notification' % record.levelname
         msg['From'] = self.from_addr
         msg['To'] = self.to_addr
 
